@@ -39,13 +39,16 @@ RUN python3 -m pip install --upgrade --force-reinstall pip==9.0.3
 
 # Install Python packages - Step 1
 COPY requirements_1.txt /tmp/
-RUN python3 -m pip install -r /tmp/requirements_1.txt --disable-pip-version-check
+RUN python3 -m pip install -r /tmp/requirements_1.txt \
+    --disable-pip-version-check
 
 # Install Python packages - Step 2 (OpenAI Gym)
 COPY requirements_2.txt /tmp/
-RUN python3 -m pip install -r /tmp/requirements_2.txt --disable-pip-version-check
+RUN python3 -m pip install -r /tmp/requirements_2.txt \
+    --disable-pip-version-check
 
-RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pip \
+                                     setuptools
 
 # Add directory
 RUN mkdir /ds
