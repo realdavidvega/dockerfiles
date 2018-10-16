@@ -1,10 +1,10 @@
 
-# Base
-FROM ubuntu:16.04
+# Base image
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Ubuntu packages + Numpy
+# Install Ubuntu packages + Python 3
 RUN apt-get update \
      && apt-get install -y --no-install-recommends \
         apt-utils \
@@ -16,7 +16,7 @@ RUN apt-get update \
         zlib1g-dev \
         libjpeg-dev \
         xvfb \
-        libav-tools \
+        ffmpeg \
         xorg-dev \
         libboost-all-dev \
         libsdl2-dev \
@@ -29,7 +29,7 @@ RUN apt-get update \
         python3-wheel  \
         python3-tk \
         libopenblas-base  \
-        libatlas-dev  \
+        libatlas-base-dev  \
         cython3  \
      && apt-get clean \
      && rm -rf /var/lib/apt/lists/*
@@ -50,8 +50,17 @@ RUN python3 -m pip install -r /tmp/requirements_2.txt \
 RUN python3 -m pip install --upgrade pip \
                                      setuptools
 
-# Add directory
-RUN mkdir /ds
+# Add directories
+RUN mkdir -p /workspace/notebooks && \
+    mkdir /workspace/environment && \
+    mkdir /workspace/sources
+
+# Add Backtrader gym Environment
+RUN cd /workspace/environment && \
+    git clone https://github.com/Kismuz/btgym.git && \
+    cd btgym/ && \
+    pip install -e . && \
+    cd /
 
 # Enable jupyter widgets
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
@@ -59,7 +68,8 @@ RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
 ENV DEBIAN_FRONTEND teletype
 
 # Jupyter notebook with virtual frame buffer for rendering
-CMD cd /ds \
+CMD cd /workspace \
     && xvfb-run -s "-screen 0 1400x900x24" \
     /usr/local/bin/jupyter notebook \
-    --port=8888 --ip=0.0.0.0 --allow-root
+    --port=8888 --ip=0.0.0.0 --allow-root \
+    --NotebookApp.token=''
