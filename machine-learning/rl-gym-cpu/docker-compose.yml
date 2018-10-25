@@ -1,9 +1,0 @@
-version: '3'
-services:
-  rl-cpu:
-    build: .
-    ports:
-      - '8888:8888'
-    volumes:
-      - 'C:\\Users\\Onetec\\Workspace\\GitLab:/workspace/sources'
-      - 'C:\\Users\\Onetec\\Workspace\\Local\\Notebooks:/workspace/notebooks'
