@@ -75,6 +75,8 @@ RUN apt-get clean && \
 RUN mkdir -p /workspace/environment /workspace/sources /workspace/notebooks
 RUN chmod -R a+rwx /workspace
 
+WORKDIR /workspace
+
 # 7. Add Backtrader gym environment
 RUN cd /workspace/environment && \
     git clone https://github.com/Kismuz/btgym.git && \
@@ -85,14 +87,7 @@ RUN cd /workspace/environment && \
 # 8. Enable jupyter widgets
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
-# TensorBoard
-EXPOSE 6006
-
-# IPython
-EXPOSE 8888
-
-# VNC Server
-EXPOSE 5902
-
-COPY run.sh /
-CMD ["/run.sh", "--allow-root"]
+# Run Jupyter
+CMD cd /workspace && \
+		jupyter notebook --ip=0.0.0.0 --allow-root --no-browser \
+		--NotebookApp.token='' && Xvfb -s "-screen 0 1280x960x24"

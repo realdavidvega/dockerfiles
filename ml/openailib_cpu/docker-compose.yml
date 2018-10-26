@@ -1,0 +1,14 @@
+version: '3'
+services:
+    openailib_cpu:
+      image: vegalichacz/openailib_cpu
+      container_name: openailib_cpu
+      build: .
+      ports:
+        - 8888:8888
+        - 6006:6006
+      volumes:
+        - C:\\Users\\Onetec\\Workspace\\GitLab:/workspace/sources
+        - C:\\Users\\Onetec\\Workspace\\Local\\Notebooks:/workspace/notebooks
+      stdin_open: true
+      tty: true
