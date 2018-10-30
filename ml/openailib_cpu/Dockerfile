@@ -23,7 +23,7 @@ RUN pip3 install --upgrade pip setuptools && pip install --upgrade pip
 RUN pip3 install \
 			jupyter \
 			pandas \
-			matplotlib \
+			matplotlib==2.0.2 \
 			scipy \
 			seaborn \
 			scikit-learn \
@@ -72,22 +72,27 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # 6. Add workspace directories
-RUN mkdir -p /workspace/environment /workspace/sources /workspace/notebooks
+RUN mkdir -p  /workspace/data /workspace/notebooks workspace/logs
 RUN chmod -R a+rwx /workspace
 
 WORKDIR /workspace
 
 # 7. Add Backtrader gym environment
-RUN cd /workspace/environment && \
+RUN mkdir /environment && cd /environment && \
     git clone https://github.com/Kismuz/btgym.git && \
-    cd btgym/ && \
-    pip3 install -e . && \
-    cd /
+    cd btgym/ && pip3 install -e . && cd /
+
+# 8. Add FX HistData downloader
+RUN cd /environment && \
+		git clone https://github.com/philipperemy/FX-1-Minute-Data && \
+		cd /
 
 # 8. Enable jupyter widgets
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
 # Run Jupyter
-CMD cd /workspace && \
-		jupyter notebook --ip=0.0.0.0 --allow-root --no-browser \
-		--NotebookApp.token='' && Xvfb -s "-screen 0 1280x960x24"
+CMD ["/bin/bash", "-c", "cd /workspace && \
+		  jupyter notebook --ip=0.0.0.0 --allow-root --no-browser \
+			--NotebookApp.token='' && \
+			Xvfb -s '-screen 0 1280x960x24' && \
+			tensorboard --logdir /workspace/logs"]

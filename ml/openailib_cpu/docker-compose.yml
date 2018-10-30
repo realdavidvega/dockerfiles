@@ -8,7 +8,8 @@ services:
         - 8888:8888
         - 6006:6006
       volumes:
-        - C:\\Users\\Onetec\\Workspace\\GitLab:/workspace/sources
-        - C:\\Users\\Onetec\\Workspace\\Local\\Notebooks:/workspace/notebooks
+        - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\data:/workspace/data
+        - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\notebooks:/workspace/notebooks
+        - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\logs:/workspace/logs
       stdin_open: true
       tty: true
