@@ -1,17 +1,14 @@
-FROM nvidia/cuda:8.0-runtime
+FROM nvidia/cuda:10.0-runtime
 #TODO upgrade to 9.1 when nvidia drivers are out on apt-get for ubuntu
-#https://github.com/NVIDIA/nvidia-docker/wiki/CUDA#requirements
+
 LABEL maintainer="David Vega Lichacz <davidvegalichacz@gmail.com>"
+
+ENV DEBIAN_FRONTEND noninteractive
 
 # 0 installing CUDA all the way
 WORKDIR /
-COPY cudnn-8.0-linux-x64-v6.0.tgz /
-RUN tar -xzvf /cudnn-8.0-linux-x64-v6.0.tgz && \
-	mkdir -p /usr/local/cuda/include && \
-	mkdir -p /usr/local/cuda/lib64 && \
-	cp cuda/include/cudnn.h /usr/local/cuda/include && \
-	cp cuda/lib64/libcudnn* /usr/local/cuda/lib64 && \
-	chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+COPY libcudnn7_7.3.1.20-1+cuda10.0_amd64.deb /
+RUN apt install /libcudnn7_7.3.1.20-1+cuda10.0_amd64.deb
 
 # Installing Python, Jupyter, Tensorflow, OpenAI Gym
 ###################################################
@@ -62,7 +59,7 @@ RUN apt-get install -y --no-install-recommends \
 		qtbase5-dev \
 		libqt5opengl5-dev \
 		libassimp-dev \
-		libpython3.5-dev \
+		libpython3-dev \
 		libboost-python-dev \
 		libtinyxml-dev
 
