@@ -1,8 +1,8 @@
 version: '3'
 services:
-    openailib_cpu:
-      image: vegalichacz/openailib_cpu
-      container_name: openailib_cpu
+    btgym_cpu:
+      image: vegalichacz/btgym_cpu
+      container_name: btgym_cpu
       build: .
       ports:
         - 8888:8888
