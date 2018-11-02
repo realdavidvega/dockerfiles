@@ -1,8 +1,8 @@
 version: '3'
 services:
-    btgym_cpu:
-      image: vegalichacz/btgym_cpu
-      container_name: btgym_cpu
+    btgym_gpu:
+      image: vegalichacz/btgym_gpu
+      container_name: btgym_gpu
       build: .
       ports:
         - 8888:8888

@@ -15,8 +15,10 @@ RUN apt-get update && \
 		python3 \
 		python
 
-# 1.1 uppgrade pip and pip3
-RUN pip3 install --upgrade pip setuptools && pip install --upgrade pip
+# 1.1 upgrade pip and pip3
+RUN pip3 install --upgrade \
+		pip setuptools && \
+		pip install --upgrade pip
 
 # 2. installing jupyter, and a bunch of Science Python Packages
 # packages taken from https://hub.docker.com/r/jupyter/datascience-notebook/
@@ -45,11 +47,21 @@ RUN pip3 install tensorflow
 RUN pip3 install gym pyopengl
 
 # 4.1 installing roboschool and its dependencies. We love FOSS
-RUN apt-get install -y --no-install-recommends cmake ffmpeg pkg-config qtbase5-dev libqt5opengl5-dev libassimp-dev libpython3.5-dev libboost-python-dev libtinyxml-dev
+RUN apt-get install -y --no-install-recommends \
+		cmake \
+		ffmpeg \
+		pkg-config \
+		qtbase5-dev \
+		libqt5opengl5-dev \
+		libassimp-dev \
+		libpython3.5-dev \
+		libboost-python-dev \
+		libtinyxml-dev
+
 # This got some dependencies, so let's get going
 # https://github.com/openai/roboschool
-WORKDIR /gym
-ENV ROBOSCHOOL_PATH="/gym/roboschool"
+WORKDIR /env
+ENV ROBOSCHOOL_PATH="/env/roboschool"
 # installing bullet (the physics engine of roboschool) and its dependencies
 RUN apt-get install -y --no-install-recommends git gcc g++ && \
 	git clone https://github.com/openai/roboschool && \
