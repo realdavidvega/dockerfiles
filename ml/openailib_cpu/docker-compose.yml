@@ -6,10 +6,17 @@ services:
       build: .
       ports:
         - 8888:8888
-        - 6006:6006
       volumes:
         - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\data:/workspace/data
         - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\notebooks:/workspace/notebooks
         - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\logs:/workspace/logs
       stdin_open: true
       tty: true
+    tensorboard:
+      image: tensorflow/tensorflow:latest
+      container_name: tensorboard
+      ports:
+        - 6006:6006
+      volumes:
+        - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\logs:/tmp/logs
+      entrypoint: 'tensorboard --logdir=/tmp/logs'

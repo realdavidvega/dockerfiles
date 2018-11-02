@@ -82,17 +82,11 @@ RUN mkdir /environment && cd /environment && \
     git clone https://github.com/Kismuz/btgym.git && \
     cd btgym/ && pip3 install -e . && cd /
 
-# 8. Add FX HistData downloader
-RUN cd /environment && \
-		git clone https://github.com/philipperemy/FX-1-Minute-Data && \
-		cd /
-
 # 8. Enable jupyter widgets
 RUN jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
 # Run Jupyter
-CMD ["/bin/bash", "-c", "cd /workspace && \
+CMD cd /workspace && \
 		  jupyter notebook --ip=0.0.0.0 --allow-root --no-browser \
 			--NotebookApp.token='' && \
-			Xvfb -s '-screen 0 1280x960x24' && \
-			tensorboard --logdir /workspace/logs"]
+			Xvfb -s '-screen 0 1280x960x24'
