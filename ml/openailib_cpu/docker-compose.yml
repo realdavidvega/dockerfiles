@@ -6,6 +6,7 @@ services:
       build: .
       ports:
         - 8888:8888
+        - 5500:5500
       volumes:
         - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\data:/workspace/data
         - C:\\Users\\Onetec\\Workspace\\GitLab\\otrader\\brain\\notebooks:/workspace/notebooks
