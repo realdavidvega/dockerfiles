@@ -1,0 +1,23 @@
+version: '3'
+services:
+    btgym_gpu:
+      image: vegalichacz/btgym_gpu
+      container_name: btgym_gpu
+      build: .
+      ports:
+        - 8888:8888
+        - 5500:5500
+      volumes:
+        - F:\\Black-Workspace\\Workspace\\GitLab\\otrader\\brain\\data:/workspace/data
+        - F:\\Black-Workspace\\Workspace\\GitLab\\otrader\\brain\\notebooks:/workspace/notebooks
+        - F:\\Black-Workspace\\Workspace\\GitLab\\otrader\\brain\\logs:/workspace/logs
+      stdin_open: true
+      tty: true
+    tensorboard:
+      image: tensorflow/tensorflow:latest
+      container_name: tensorboard
+      ports:
+        - 6006:6006
+      volumes:
+        - F:\\Black-Workspace\\Workspace\\GitLab\\otrader\\brain\\logs:/tmp/logs
+      entrypoint: 'tensorboard --logdir=/tmp/logs'
