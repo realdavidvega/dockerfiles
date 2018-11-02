@@ -72,13 +72,14 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # 6. Add workspace directories
-RUN mkdir -p  /workspace/data /workspace/notebooks workspace/logs
-RUN chmod -R a+rwx /workspace
+RUN mkdir /workspace && cd /workspace && \
+		mkdir data/ notebooks/ logs/ env/ && \
+		chmod -R a+rwx /workspace && cd /
 
 WORKDIR /workspace
 
 # 7. Add Backtrader gym environment
-RUN mkdir /environment && cd /environment && \
+RUN cd /workspace/env && \
     git clone https://github.com/Kismuz/btgym.git && \
     cd btgym/ && pip3 install -e . && cd /
 
